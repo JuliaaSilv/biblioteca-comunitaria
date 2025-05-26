@@ -1,10 +1,9 @@
-package controller;
+package com.biblioteca.livros.controller;
 
 
-import model.Livro;
-import service.LivroService;
+import com.biblioteca.livros.model.Livro;
+import com.biblioteca.livros.service.LivroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

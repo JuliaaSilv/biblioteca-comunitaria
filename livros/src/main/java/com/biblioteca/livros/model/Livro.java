@@ -1,4 +1,4 @@
-package model;
+package com.biblioteca.livros.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
