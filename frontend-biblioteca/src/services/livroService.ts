@@ -4,7 +4,7 @@ export {};
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080", // Back-end Spring Boot
+  baseURL: "http://localhost:8081", // Back-end Spring Boot
 });
 
 export const getLivros = () => api.get("/livros");

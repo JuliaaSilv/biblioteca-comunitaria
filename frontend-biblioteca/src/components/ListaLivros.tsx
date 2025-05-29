@@ -1,6 +1,7 @@
-// ListaLivros.tsx
 import React from "react";
 import axios from "axios";
+
+import "../App.css";
 
 interface Livro {
   id: number;
@@ -21,7 +22,7 @@ const ListaLivros: React.FC<Props> = ({ livros, atualizar, setAtualizar }) => {
   const trocarStatus = async (id: number, statusAtual: string) => {
     const novoStatus = statusAtual === "DISPONIVEL" ? "EMPRESTADO" : "DISPONIVEL";
     try {
-      await axios.put(`http://localhost:8080/livros/${id}/status?status=${novoStatus}`);
+      await axios.put(`http://localhost:8081/livros/${id}/status?status=${novoStatus}`);
       setAtualizar(!atualizar);
     } catch (error) {
       console.error("Erro ao atualizar status:", error);
@@ -29,18 +30,38 @@ const ListaLivros: React.FC<Props> = ({ livros, atualizar, setAtualizar }) => {
   };
 
   return (
-    <div style={{ flex: 1 }}>
-      <h2>Lista de Livros</h2>
-      <ul>
-        {livros.map(livro => (
-          <li key={livro.id}>
-            {livro.titulo} - {livro.autor} ({livro.categoria}) - {livro.status}{" "}
-            <button onClick={() => trocarStatus(livro.id, livro.status)} className={livro.status === "DISPONIVEL" ? "" : "devolver"}>
-              {livro.status === "DISPONIVEL" ? "Emprestar" : "Devolver"}
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="card">
+      <h2 style={{ textAlign: "center" }}>Lista de Livros</h2>
+      {livros.length === 0 ? (
+        <p>Nenhum livro cadastrado.</p>
+      ) : (
+        <div>
+          {livros.map(livro => (
+            <div className="livro-card" key={livro.id}>
+              <span>{livro.titulo}</span>
+              <div>Autor: {livro.autor}</div>
+              <div>Categoria: {livro.categoria}</div>
+              <div>Status: {livro.status}</div>
+              <div className="actions">
+                <button
+                  onClick={() => trocarStatus(livro.id, livro.status)}
+                  style={{
+                    backgroundColor: livro.status === "DISPONIVEL" ? "#27ae60" : "#f39c12",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    padding: "5px 10px",
+                    flex: 1
+                  }}
+                >
+                  {livro.status === "DISPONIVEL" ? "Emprestar" : "Devolver"}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

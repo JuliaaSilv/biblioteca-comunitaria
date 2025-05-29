@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import "../App.css";
 
 interface Livro {
   id: number;
@@ -12,34 +13,50 @@ interface Props {
 }
 
 const LivrosDisponiveis: React.FC<Props> = ({ livros, onRemoverLivro }) => {
-  const livrosDisponiveis = livros.filter(livro => livro.status === "DISPONIVEL");
+  const [busca, setBusca] = useState("");
+  const livrosDisponiveis = livros.filter(
+    livro => livro.status === "DISPONIVEL" && livro.titulo.toLowerCase().includes(busca.toLowerCase())
+  );
 
   return (
-    <div style={{ flex: 0.4, border: "1px solid #ccc", padding: "15px", borderRadius: "8px", height: "fit-content" }}>
-      <h3>Livros Disponíveis</h3>
+    <div className="card">
+      <h3 style={{ textAlign: "center" }}>Livros Disponíveis</h3>
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+        <input
+          type="text"
+          placeholder="Buscar livro disponível..."
+          value={busca}
+          onChange={e => setBusca(e.target.value)}
+          style={{ padding: "5px", width: "80%" }}
+        />
+      </div>
       {livrosDisponiveis.length === 0 ? (
         <p>Nenhum livro disponível.</p>
       ) : (
-        <ul style={{ listStyle: "none", padding: 0 }}>
+        <div>
           {livrosDisponiveis.map(livro => (
-            <li key={livro.id} style={{ marginBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span>{livro.titulo} ({livro.status})</span>
-              <button
-                style={{
-                  backgroundColor: "#e74c3c",
-                  border: "none",
-                  color: "white",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                  padding: "5px 10px",
-                }}
-                onClick={() => onRemoverLivro(livro.id)}
-              >
-                Remover
-              </button>
-            </li>
+            <div className="livro-card" key={livro.id}>
+              <span>{livro.titulo}</span>
+              <div>Status: {livro.status}</div>
+              <div className="actions">
+                <button
+                  style={{
+                    backgroundColor: "#e74c3c",
+                    border: "none",
+                    color: "white",
+                    borderRadius: "5px",
+                    cursor: "pointer",
+                    padding: "5px 10px",
+                    flex: 1
+                  }}
+                  onClick={() => onRemoverLivro(livro.id)}
+                >
+                  Remover
+                </button>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
