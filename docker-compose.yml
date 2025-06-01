@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./livros
+    ports:
+      - "8080:8080"
+    container_name: backend-livros
+    networks:
+      - biblioteca-network
+
+  frontend:
+    build:
+      context: ./frontend-biblioteca
+    ports:
+      - "3000:80"
+    container_name: frontend-biblioteca
+    depends_on:
+      - backend
+    networks:
+      - biblioteca-network
+
+networks:
+  biblioteca-network:
+    driver: bridge
+
