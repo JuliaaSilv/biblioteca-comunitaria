@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  backend:
+    image: pvteixeira/biblioteca-backend:latest
+    ports:
+      - "8080:8080"
+
+  frontend:
+    image: pvteixeira/biblioteca-frontend:latest
+    ports:
+      - "3000:80"
